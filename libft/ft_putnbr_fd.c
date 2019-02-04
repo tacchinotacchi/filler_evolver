@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/10 12:46:13 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/11 12:21:47 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/08 19:46:43 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:16:22 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned int	tmp;
+	int		divisor;
+	char	first_digit;
 
-	tmp = 0;
-	if (n >= 0)
-		tmp = n;
-	else if (n < 0)
-	{
+	if (n < 0)
 		ft_putchar_fd('-', fd);
-		tmp = (unsigned int)(n * (-1));
-	}
-	if (tmp > 9)
+	divisor = 1000000000;
+	first_digit = 0;
+	while (divisor > 0)
 	{
-		ft_putnbr_fd(tmp / 10, fd);
-		ft_putchar_fd((tmp % 10) + '0', fd);
+		if (first_digit || ABS(n / divisor) > 0)
+		{
+			ft_putchar_fd(ABS(n / divisor) + '0', fd);
+			n -= (n / divisor) * divisor;
+			first_digit = 1;
+		}
+		divisor /= 10;
 	}
-	else
-		ft_putchar_fd(tmp + '0', fd);
+	if (!first_digit)
+		ft_putchar_fd('0', fd);
 }

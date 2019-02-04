@@ -3,35 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 20:46:27 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/10 13:05:45 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/07 16:13:48 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:14:12 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char *str)
-{
-	int i;
-	int nb;
-	int neg;
+#include "libft.h"
 
-	i = 0;
-	nb = 0;
-	neg = 1;
-	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\r'
-		|| str[i] == '\v' || str[i] == '\f')
-		i++;
-	if (str[i] == '-')
-		neg = -1;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
+static size_t	skip_whitespaces(const char *str)
+{
+	size_t index;
+
+	index = 0;
+	while (str[index] && ft_isspace(str[index]))
+		index++;
+	return (index);
+}
+
+int				ft_atoi(const char *str)
+{
+	size_t	index;
+	int		result;
+	int		sign;
+
+	result = 0;
+	sign = 1;
+	index = skip_whitespaces(str);
+	if (str[index] == '-')
+		sign = -1;
+	if (str[index] == '+' || str[index] == '-')
+		index++;
+	while (str[index] && ft_isdigit(str[index]))
 	{
-		nb *= 10;
-		nb += str[i] - '0';
-		i++;
+		result *= 10;
+		result = result + (str[index] - '0') * sign;
+		index++;
 	}
-	nb = nb * neg;
-	return (nb);
+	return (result);
 }

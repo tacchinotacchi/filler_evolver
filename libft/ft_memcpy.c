@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 12:19:34 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/24 18:27:24 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/06 14:52:46 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:15:56 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*tmp1;
-	char	*tmp2;
+	size_t index;
 
-	tmp1 = (char *)dst;
-	tmp2 = (char *)src;
-	if (n == 0)
-		return (tmp1);
-	while (n > 0)
+	index = 0;
+	while (index < n)
 	{
-		*tmp1++ = *tmp2++;
-		n--;
+		((char*)dst)[index] = ((char*)src)[index];
+		index++;
 	}
 	return (dst);
 }

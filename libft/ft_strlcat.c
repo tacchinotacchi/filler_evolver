@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 21:44:17 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/24 18:29:18 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/07 13:09:49 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:17:39 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t strldst;
-	size_t strlsrc;
-	size_t i;
+	size_t index;
+	size_t src_index;
 
-	strldst = ft_strlen(dst);
-	strlsrc = ft_strlen(src);
-	i = 0;
-	if (strldst >= size)
-		return (size + strlsrc);
-	while (src[i] != '\0' && i < size - strldst - 1)
+	index = 0;
+	src_index = 0;
+	while (index < size && dst[index])
+		index++;
+	while (index + 1 < size && src[src_index])
 	{
-		dst[strldst + i] = src[i];
-		i++;
+		dst[index] = src[src_index];
+		index++;
+		src_index++;
 	}
-	dst[strldst + i] = '\0';
-	return (strldst + strlsrc);
+	if (index < size)
+		dst[index] = '\0';
+	return (index + ft_strlen(&src[src_index]));
 }

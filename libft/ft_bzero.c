@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 11:20:49 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/10 20:17:49 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/06 14:48:17 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:14:13 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,4 @@
 void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
-	return ;
 }

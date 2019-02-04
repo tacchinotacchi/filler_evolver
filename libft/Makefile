@@ -1,97 +1,118 @@
-NAME =	libft.a
-SRC =	./ft_atoi.c \
-		./ft_bzero.c \
-		./ft_isalnum.c \
-		./ft_isalpha.c \
-		./ft_isascii.c \
-		./ft_isdigit.c \
-		./ft_islower.c \
-		./ft_isprint.c \
-		./ft_isupper.c \
-		./ft_lstadd.c \
-		./ft_lstdel.c \
-		./ft_lstdelone.c \
-		./ft_lstiter.c \
-		./ft_lstnew.c \
-		./ft_lstmap.c \
-		./ft_memalloc.c \
-		./ft_memccpy.c \
-		./ft_memchr.c \
-		./ft_memcmp.c \
-		./ft_memcpy.c \
-		./ft_memdel.c \
-		./ft_memmove.c \
-		./ft_memset.c \
-		./ft_putchar.c \
-		./ft_putchar_fd.c \
-		./ft_putendl.c \
-		./ft_putendl_fd.c \
-		./ft_putnbr.c \
-		./ft_putnbr_fd.c \
-		./ft_putstr.c \
-		./ft_putstr_fd.c \
-		./ft_strcat.c \
-		./ft_strchr.c \
-		./ft_strclr.c \
-		./ft_strcmp.c \
-		./ft_strcpy.c \
-		./ft_strdel.c \
-		./ft_strdup.c \
-		./ft_strequ.c \
-		./ft_striter.c \
-		./ft_striteri.c \
-		./ft_strjoin.c \
-		./ft_strlcat.c \
-		./ft_strlen.c \
-		./ft_strmap.c \
-		./ft_strmapi.c \
-		./ft_strncat.c \
-		./ft_strncmp.c \
-		./ft_strncpy.c \
-		./ft_strnequ.c \
-		./ft_strnew.c \
-		./ft_strnstr.c \
-		./ft_strrchr.c \
-		./ft_strsplit.c \
-		./ft_strstr.c \
-		./ft_strsub.c \
-		./ft_strtrim.c \
-		./ft_tolower.c \
-		./ft_toupper.c \
-		./ft_swapaddr.c \
-		./ft_pow.c \
-		./ft_factorial.c \
-		./ft_putnbr_base.c \
-		./ft_strlcpy.c \
-		./ft_strndup.c \
-		./ft_min.c \
-		./ft_max.c \
-		./ft_abs.c \
-		./ft_itoa.c \
-		./ft_itoa_base.c \
-		./ft_uitoa.c \
-		./ft_uitoa_base.c \
-		./ft_strlower.c \
-		./get_next_line.c
-FLAG = -Wall -Wextra -Werror
-OBJ = $(SRC:.c=.o)
-HEADER = -I ./
+SRCS = ft_memset.c \
+		ft_bzero.c \
+		ft_memcpy.c \
+		ft_memccpy.c \
+		ft_memmove.c \
+		ft_putchar.c \
+		ft_putstr.c \
+		ft_strlen.c \
+		ft_memchr.c \
+		ft_memcmp.c \
+		ft_strdup.c \
+		ft_strcpy.c \
+		ft_strncpy.c \
+		ft_strcat.c \
+		ft_strncat.c \
+		ft_strlcat.c \
+		ft_strchr.c \
+		ft_strrchr.c \
+		ft_strcmp.c \
+		ft_strncmp.c \
+		ft_strstr.c \
+		ft_strnstr.c \
+		ft_isdigit.c \
+		ft_isalpha.c \
+		ft_isalnum.c \
+		ft_atoi.c \
+		ft_isascii.c \
+		ft_isprint.c \
+		ft_tolower.c \
+		ft_toupper.c \
+		ft_memalloc.c \
+		ft_memdel.c \
+		ft_strnew.c \
+		ft_strdel.c \
+		ft_strclr.c \
+		ft_striter.c \
+		ft_striteri.c \
+		ft_strmap.c \
+		ft_strmapi.c \
+		ft_strequ.c \
+		ft_strnequ.c \
+		ft_strsub.c \
+		ft_strjoin.c \
+		ft_isspace.c \
+		ft_isupper.c \
+		ft_islower.c \
+		ft_itoa.c \
+		ft_putnbr.c \
+		ft_putendl.c \
+		ft_strtrim.c \
+		ft_strsplit.c \
+		ft_splitdel.c \
+		ft_putchar_fd.c \
+		ft_putstr_fd.c \
+		ft_putendl_fd.c \
+		ft_putnbr_fd.c \
+		ft_readbuff.c \
+		ft_str_is_digit.c \
+		list/list_new.c \
+		list/list_delone.c \
+		list/list_del.c \
+		list/list_add.c \
+		list/list_iter.c \
+		list/list_map.c \
+		list/list_search.c \
+		list/list_rem.c \
+		list/list_append.c \
+		list/list_rollback.c \
+		array/array_init.c \
+		array/array_clear.c \
+		array/array_pop_back.c \
+		array/array_push_back.c \
+		array/array_reserve.c \
+		array/array_shrink.c \
+		ft_max.c \
+		ft_min.c \
+		ft_sqrt.c \
+		ft_itoa_base.c \
+		ft_witomb.c \
+		get_next_line.c \
+		get_next_line_mem.c
+OBJS = $(patsubst %.c,obj/%.o,$(SRCS))
+
+CC = gcc
+ifndef CFLAGS_WARNINGS
+export CFLAGS_WARNINGS = 1
+export CFLAGS := $(CFLAGS) -Wall -Wextra -Werror
+endif
+INCLUDES = includes/libft.h \
+		includes/list.h \
+		includes/get_next_line.h
+INCLUDE_FOLDERS = -Iincludes/
+NAME = libft.a
+
+.PHONY: clean fclean re all
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	ar rc $@ $^
-	ranlib $(NAME)
+$(NAME): $(OBJS)
+	ar crs $@ $^
 
-%.o: %.c
-	gcc $(FLAG) $(HEADER) -c $^ -o $@
+obj:
+	mkdir -p obj
+	mkdir -p obj/list
+	mkdir -p obj/array
+
+obj/%.o: %.c $(INCLUDES) | obj
+	gcc $(CFLAGS) $(INCLUDE_FOLDERS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJS)
+	rm -rf obj
 
-fclean: clean libclean
-
-libclean :
+fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
+re: fclean
+	$(MAKE) all

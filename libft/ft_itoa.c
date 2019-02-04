@@ -3,38 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/05 16:19:21 by jaelee            #+#    #+#             */
-/*   Updated: 2018/12/05 16:30:30 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/07 18:41:28 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:15:24 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
-char	*ft_itoa(int n)
+static size_t	digits(int n)
 {
-	char		*val;
-	int			len;
-	long int	tmp;
+	size_t	digits;
 
-	len = n < 0 ? 2 : 1;
-	tmp = n < 0 ? -(long int)n : n;
-	while (tmp > 10)
+	digits = 1;
+	while (ABS(n) > 9)
 	{
-		tmp /= 10;
-		len++;
+		n /= 10;
+		digits++;
 	}
-	if (!(val = ft_strnew(len)))
+	if (n >= 0)
+		return (digits);
+	else
+		return (digits + 1);
+}
+
+static void		generate_string(char *str, int n)
+{
+	size_t	str_index;
+	int		divisor;
+	char	first_digit;
+
+	str_index = 0;
+	if (n < 0)
+		str[str_index++] = '-';
+	divisor = 1000000000;
+	first_digit = 0;
+	while (divisor > 0)
+	{
+		if (first_digit || ABS(n / divisor) > 0)
+		{
+			str[str_index++] = ABS(n / divisor) + '0';
+			n -= (n / divisor) * divisor;
+			first_digit = 1;
+		}
+		divisor /= 10;
+	}
+	if (!first_digit)
+		str[str_index] = '0';
+}
+
+char			*ft_itoa(int n)
+{
+	char	*str;
+
+	str = ft_strnew(digits(n));
+	if (!str)
 		return (NULL);
-	val[len] = '\0';
-	val[0] = n < 0 ? '-' : 0;
-	tmp = n < 0 ? -(long int)n : n;
-	while (tmp >= 10)
-	{
-		val[--len] = (tmp % 10) + '0';
-		tmp /= 10;
-	}
-	val[--len] = (tmp % 10) + '0';
-	return (val);
+	generate_string(str, n);
+	return (str);
 }

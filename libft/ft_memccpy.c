@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 13:10:17 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/24 18:28:10 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/06 17:19:04 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:15:49 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	size_t			i;
-	unsigned char	*tmp1;
-	unsigned char	*tmp2;
+	size_t	index;
+	char	found;
 
-	tmp1 = (unsigned char *)dst;
-	tmp2 = (unsigned char *)src;
-	i = 0;
-	while (i < n)
+	index = 0;
+	found = 0;
+	while (!found && index < n)
 	{
-		tmp1[i] = tmp2[i];
-		if (tmp2[i] == (unsigned char)c)
-			return (tmp1 + i + 1);
-		i++;
+		((unsigned char*)dst)[index] = ((unsigned char*)src)[index];
+		if (((unsigned char*)src)[index] == (unsigned char)c)
+			found = 1;
+		index++;
 	}
+	if (found)
+		return ((unsigned char*)dst + index);
 	return (NULL);
 }

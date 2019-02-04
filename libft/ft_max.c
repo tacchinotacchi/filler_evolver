@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/24 21:13:56 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/24 21:14:34 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/14 22:12:43 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:15:47 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_max(int a, int b)
+int		ft_max(int a, int b)
 {
 	return (a >= b ? a : b);
 }

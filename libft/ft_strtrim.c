@@ -3,40 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/09 15:21:53 by jaelee            #+#    #+#             */
-/*   Updated: 2018/11/25 19:16:53 by jaelee           ###   ########.fr       */
+/*   Created: 2018/11/08 17:34:42 by aamadori          #+#    #+#             */
+/*   Updated: 2018/12/06 11:16:51 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
-char	*ft_strtrim(char const *s)
+static char		is_space_nline_tab(char c)
 {
-	size_t	start;
-	size_t	end;
-	size_t	i;
-	char	*tmp;
+	return (c == ' ' || c == '\n' || c == '\t');
+}
 
-	if (!(s))
-		return (NULL);
-	end = 0;
-	i = 0;
-	tmp = NULL;
-	while ((s[i] == ' ' || s[i] == '\t' || s[i] == '\n') && s[i] != '\0')
-		i++;
-	start = i;
-	if (i == ft_strlen(s) || !(*s))
-		return (ft_memalloc(1));
-	while (s[i] != '\0')
+static size_t	length_last_char(char const *s)
+{
+	size_t index;
+	size_t length;
+
+	index = 0;
+	length = 0;
+	while (s[index])
 	{
-		if (s[i] >= 33 && s[i] <= 126)
-			end = i;
-		i++;
+		if (!is_space_nline_tab(s[index]))
+			length = index + 1;
+		index++;
 	}
-	if (end <= start)
+	return (length);
+}
+
+char			*ft_strtrim(char const *s)
+{
+	size_t	index;
+	size_t	length;
+	char	*copy;
+
+	if (!s)
 		return (NULL);
-	tmp = ft_strsub(s, start, end - start + 1);
-	return (tmp);
+	index = 0;
+	while (s[index] && is_space_nline_tab(s[index]))
+		index++;
+	length = length_last_char(s + index);
+	copy = ft_strnew(length);
+	if (!copy)
+		return (NULL);
+	ft_memcpy(copy, s + index, length);
+	return (copy);
 }

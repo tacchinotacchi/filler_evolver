@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 08:23:03 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/02 05:44:45 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/05 00:13:01 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	draw_grid_horiz(t_visu *v)
 	while (nb_y-- >= 0)
 	{
 		if (SDL_FillRect(grid, NULL,
-		SDL_MapRGB(grid->format, 255, 255, 255)) < 0)
+		SDL_MapRGB(grid->format, 242, 237, 215)) < 0)
 			ft_exit(v);
 		if (SDL_BlitSurface(grid, NULL, v->surf, &info) < 0)
 			ft_exit(v);
@@ -57,7 +57,7 @@ void	draw_grid_verti(t_visu *v)
 	while (nb_x-- >= 0)
 	{
 		if (SDL_FillRect(grid, NULL,
-		SDL_MapRGB(grid->format, 255, 255, 255)) < 0)
+		SDL_MapRGB(grid->format, 242, 237, 215)) < 0)
 			ft_exit(v);
 		if (SDL_BlitSurface(grid, NULL, v->surf, &info) < 0)
 			ft_exit(v);

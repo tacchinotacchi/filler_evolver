@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/22 23:03:21 by jaelee            #+#    #+#             */
-/*   Updated: 2019/01/28 09:10:36 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/06 03:59:55 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ typedef struct	s_filler
 	int		index_nmap;
 }				t_filler;
 
-void			parse_input(t_filler *pc, int fd);
+int				parse_input(t_filler *pc, int fd);
+int				parse_input2(t_filler *pc, int fd);
+int				verify_split(char **split);
+int				get_start_pos(t_filler *pc);
 void			init_filler(t_filler *pc);
-void			create_nmap(t_filler *pc);
+int				create_nmap(t_filler *pc);
 void			process_nmap(t_filler *pc);
 int				filler(t_filler *pc);
 int				ft_atoi_ptr(char **str);

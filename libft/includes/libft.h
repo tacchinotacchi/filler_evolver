@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 14:45:35 by aamadori          #+#    #+#             */
-/*   Updated: 2019/02/04 19:14:06 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/05 01:39:06 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ char			*ft_itoa_base(int number, const char *base);
 ssize_t			ft_readbuff(int fd, char *buf, size_t len);
 int				ft_witomb(char *str, wchar_t wc);
 double			ft_sqrt(double num);
-size_t			ft_str_is_digit(const char *str);
+size_t			ft_str_nbr(const char *str);
 
 #endif

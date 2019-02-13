@@ -6,11 +6,11 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 00:19:46 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/04 19:23:02 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/08 23:44:45 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <visu.h>
+#include "visu.h"
 
 static void	draw_grid(t_visu *v)
 {

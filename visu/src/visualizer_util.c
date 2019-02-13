@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 03:18:28 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/02 06:03:56 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/05 06:23:20 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@ void	ft_close(t_visu *v)
 
 void	ft_exit(t_visu *v)
 {
+	if (v->page != NULL)
+		list_del(&(v->page), free_content);
+	exit(0);
+}
+
+void	ft_exit_parsing(t_visu *v, char *line)
+{
+	if (line)
+		free(line);
 	if (v->page != NULL)
 		list_del(&(v->page), free_content);
 	exit(0);

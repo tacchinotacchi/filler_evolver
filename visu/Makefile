@@ -6,21 +6,22 @@
 #    By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/02 06:44:37 by jaelee            #+#    #+#              #
-#    Updated: 2019/02/04 19:08:24 by jaelee           ###   ########.fr        #
+#    Updated: 2019/02/09 00:10:52 by jaelee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = visualizer
 SRCS = check_piece.c \
-	   draw_grid.c \
-	   get_mapsize.c \
-	   get_windowsize.c \
-	   init.c \
-	   main.c \
-	   sdl_draw.c \
-	   special_case.c \
-	   store_output.c \
-	   visualizer_util.c
+	skip_piece_check.c \
+	draw_grid.c \
+	get_mapsize.c \
+	get_windowsize.c \
+	init.c \
+	main.c \
+	sdl_draw.c \
+	special_case.c \
+	store_output.c \
+	visualizer_util.c
 INCLUDES = ../libft/includes/libft.h \
 		./includes/visu.h
 OBJS = $(patsubst %.c,obj/%.o,$(SRCS))

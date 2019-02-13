@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filler.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 09:52:27 by jaelee            #+#    #+#             */
-/*   Updated: 2019/01/11 01:30:53 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/06 03:22:32 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int			filler(t_filler *pc)
 		y++;
 	}
 	if (pc->sum != INT_MAX)
-		return (1);
+		return (FT_SUCCESS);
 	else
-		return (0);
+		return (FT_FAIL);
 }

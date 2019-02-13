@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 03:54:09 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/02 06:24:02 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/05 06:28:33 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static void		skip_line(t_visu *v)
 	char *line;
 
 	(void)v;
-	if (get_next_line(0, &line) < 0)
-		ft_exit(v);
+	if (get_next_line(0, &line) < 1)
+		ft_exit_parsing(v, line);
 	free(line);
 }
 
 static int		case_plateau(char *line, t_visu *v)
 {
 	free(line);
-	if (get_next_line(0, &line) < 0)
-		ft_exit(v);
+	if (get_next_line(0, &line) < 1)
+		ft_exit_parsing(v, line);
 	free(line);
 	return (1);
 }
@@ -41,7 +41,7 @@ static int		case_piece(char *line, t_visu *v)
 	if (!(temp = ft_strsplit(line, ' ')))
 		ft_exit(v);
 	free(line);
-	if (!ft_str_is_digit(temp[1]))
+	if (!ft_str_nbr(temp[1]))
 		return (-1);
 	while (index < ft_atoi(temp[1]) + 3)
 	{
@@ -57,8 +57,8 @@ int				special_case(t_visu *v)
 	char	*line;
 	int		ret;
 
-	if (get_next_line(0, &line) < 0)
-		ft_exit(v);
+	if (get_next_line(0, &line) < 1)
+		ft_exit_parsing(v, line);
 	if (ft_strstr(line, "Plateau"))
 	{
 		ret = case_plateau(line, v);

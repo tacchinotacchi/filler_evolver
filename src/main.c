@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 07:50:42 by jaelee            #+#    #+#             */
-/*   Updated: 2019/01/28 09:27:00 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/13 12:02:12 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void		init_filler(t_filler *pc)
 	pc->piece = NULL;
 }
 
-static void	get_player(t_filler *pc, int fd)
+static int	get_player(t_filler *pc, int fd)
 {
 	char	*line;
 
 	if (get_next_line(fd, &line) < 1)
-		error(pc);
+		return (FT_FAIL);
 	if (ft_strstr(line, "p1") && ft_strstr(line, "jaelee.filler"))
 	{
 		pc->me = 'O';
@@ -48,8 +48,12 @@ static void	get_player(t_filler *pc, int fd)
 		pc->nbr_op = -1;
 	}
 	else
-		error(pc);
+	{
+		free(line);
+		return (FT_FAIL);
+	}
 	free(line);
+	return (FT_SUCCESS);
 }
 
 static void	print_coord(int y, int x)
@@ -66,11 +70,15 @@ int			main(void)
 	int			success;
 
 	ft_bzero(&pc, sizeof(pc));
-	get_player(&pc, 0);
+	if (get_player(&pc, 0) == FT_FAIL)
+		return (0);
 	while (1)
 	{
-		parse_input(&pc, 0);
-		create_nmap(&pc);
+		init_filler(&pc);
+		if (parse_input(&pc, 0) == FT_FAIL)
+			break ;
+		if (create_nmap(&pc) == FT_FAIL)
+			break ;
 		process_nmap(&pc);
 		success = filler(&pc);
 		if (success == 1)

@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 07:41:10 by jaelee            #+#    #+#             */
-/*   Updated: 2019/01/28 09:21:20 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/06 03:36:18 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void		error(t_filler *pc)
 	if (pc->nmap != NULL)
 		free_nmap(pc);
 	ft_putstr("0 0\n");
-	exit(EXIT_FAILURE);
 }
 
 void		free_all(t_filler *pc)

@@ -55,7 +55,7 @@ SRCS = ft_memset.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c \
 		ft_readbuff.c \
-		ft_str_is_digit.c \
+		ft_str_nbr.c \
 		list/list_new.c \
 		list/list_delone.c \
 		list/list_del.c \
@@ -80,12 +80,8 @@ SRCS = ft_memset.c \
 		get_next_line.c \
 		get_next_line_mem.c
 OBJS = $(patsubst %.c,obj/%.o,$(SRCS))
-
 CC = gcc
-ifndef CFLAGS_WARNINGS
-export CFLAGS_WARNINGS = 1
-export CFLAGS := $(CFLAGS) -Wall -Wextra -Werror
-endif
+CFLAGS = -Wall -Wextra -Werror
 INCLUDES = includes/libft.h \
 		includes/list.h \
 		includes/get_next_line.h

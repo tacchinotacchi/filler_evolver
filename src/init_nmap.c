@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_nmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 07:40:17 by jaelee            #+#    #+#             */
-/*   Updated: 2019/01/11 17:44:38 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/06 03:17:45 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		init_nmap2(t_filler *pc, int y, int x)
 		pc->nmap[y - 1][x - 1] = 1;
 }
 
-static void		init_nmap(t_filler *pc)
+static int		init_nmap(t_filler *pc)
 {
 	int	x;
 	int	y;
@@ -52,30 +52,33 @@ static void		init_nmap(t_filler *pc)
 			else if (pc->map[y][x] == pc->op || pc->map[y][x] == pc->op + 32)
 				pc->nmap[y][x] = pc->nbr_op;
 			else
-				error(pc);
+				return (FT_FAIL);
 			x++;
 		}
 		y++;
 	}
+	return (FT_SUCCESS);
 }
 
-void			create_nmap(t_filler *pc)
+int				create_nmap(t_filler *pc)
 {
 	int	index;
 	int	x;
 	int	y;
 
 	if (!(pc->nmap = (int**)ft_memalloc(sizeof(int*) * pc->map_h)))
-		error(pc);
+		return (FT_FAIL);
 	index = 0;
 	while (index < pc->map_h)
 	{
 		pc->index_nmap = index;
 		if (!(pc->nmap[index] = (int*)ft_memalloc(sizeof(int) * pc->map_w)))
-			error(pc);
+			return (FT_FAIL);
 		index++;
 	}
-	init_nmap(pc);
+	pc->index_nmap = index;
+	if (init_nmap(pc) == FT_FAIL)
+		return (FT_FAIL);
 	y = -1;
 	while (++y < pc->map_h)
 	{
@@ -83,4 +86,5 @@ void			create_nmap(t_filler *pc)
 		while (++x < pc->map_w)
 			pc->nmap[y][x] == pc->nbr_op ? init_nmap2(pc, y, x) : 0;
 	}
+	return (FT_SUCCESS);
 }

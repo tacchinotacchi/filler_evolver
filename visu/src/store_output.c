@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 04:47:09 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/04 19:28:17 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/05 06:30:27 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	check_line(char *str)
 		if (str[index] != '.' && str[index] != 'x' && str[index] != 'X' &&
 			str[index] != 'o' && str[index] != 'O')
 			return (0);
+		index++;
 	}
 	return (1);
 }
@@ -62,19 +63,15 @@ int			skip_piece(t_visu *v)
 	int		index;
 	int		ret;
 
-	(get_next_line(0, &line) < 0) ? ft_exit(v) : 0;
+	(get_next_line(0, &line) < 1) ? ft_exit_parsing(v, line) : 0;
 	(!(temp = ft_strsplit(line, ' '))) ? ft_exit(v) : 0;
 	free(line);
+	skip_piece_check(v, temp);
 	index = -1;
 	ret = 1;
-	if (!ft_str_is_digit(temp[1]))
-	{
-		ft_splitdel(temp);
-		ft_exit(v);
-	}
 	while (++index < ft_atoi(temp[1]) + 3)
 	{
-		(get_next_line(0, &line) < 0) ? ft_exit(v) : 0;
+		(get_next_line(0, &line) < 1) ? ft_exit_parsing(v, line) : 0;
 		if (ft_strstr(line, "[0, 0]"))
 		{
 			ret = special_case(v);
@@ -101,8 +98,8 @@ void		continue_parse(t_visu *v)
 		index = -1;
 		while (++index < v->nb_y)
 		{
-			if (get_next_line(0, &line) < 0)
-				ft_exit(v);
+			if (get_next_line(0, &line) < 1)
+				ft_exit_parsing(v, line);
 			(ft_strlen(line) < 5) ? ft_exit(v) : 0;
 			if (!(map[index] = ft_strdup(line + 4)))
 				ft_exit(v);
@@ -121,16 +118,16 @@ void		init_parse(t_visu *v)
 	char	**map;
 	char	*line;
 
-	if (get_next_line(0, &line) < 0)
-		ft_exit(v);
+	if (get_next_line(0, &line) < 1)
+		ft_exit_parsing(v, line);
 	free(line);
 	if (!(map = ft_memalloc(sizeof(char*) * v->nb_y)))
 		ft_exit(v);
 	index = 0;
 	while (index < v->nb_y)
 	{
-		if (get_next_line(0, &line) < 0)
-			ft_exit(v);
+		if (get_next_line(0, &line) < 1)
+			ft_exit_parsing(v, line);
 		(ft_strlen(line) < 5) ? ft_exit(v) : 0;
 		if (!(map[index] = ft_strdup(line + 4)))
 			ft_exit(v);

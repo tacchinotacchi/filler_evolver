@@ -6,7 +6,7 @@
 /*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 08:56:03 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/04 18:38:49 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/08 09:34:16 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define VISU_H
 # include "libft.h"
 # include "list.h"
-# include "SDL.h"
+# include <SDL.h>
 # include <stdlib.h>
 # define FINISH 0
 
@@ -41,6 +41,7 @@ void			get_windowsize(t_visu *v);
 void			init_parse(t_visu *v);
 void			continue_parse(t_visu *v);
 int				skip_piece(t_visu *v);
+void			skip_piece_check(t_visu *v, char **temp);
 int				special_case(t_visu *v);
 void			add_map(t_visu *v, char ***map);
 
@@ -54,12 +55,12 @@ void			draw_prev_x(SDL_Surface *piece, t_visu *v);
 void			draw_curr_o(SDL_Surface *piece, t_visu *v);
 void			draw_prev_o(SDL_Surface *piece, t_visu *v);
 void			draw_empty(SDL_Surface *piece, t_visu *v);
-
 void			key_event(t_visu *v);
 
 void			free_content(void *content, size_t content_size);
 void			free_pages(t_visu *v);
 void			ft_exit(t_visu *v);
+void			ft_exit_parsing(t_visu *v, char *line);
 void			ft_close(t_visu *v);
 
 #endif

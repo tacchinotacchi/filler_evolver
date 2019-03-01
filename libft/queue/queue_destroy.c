@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_clear.c                                      :+:      :+:    :+:   */
+/*   queue_destroy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 15:06:36 by aamadori          #+#    #+#             */
-/*   Updated: 2019/01/30 12:40:26 by aamadori         ###   ########.fr       */
+/*   Created: 2019/01/30 19:06:02 by aamadori          #+#    #+#             */
+/*   Updated: 2019/01/30 19:07:49 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "array.h"
+#include "queue.h"
 
-void	array_clear(t_array *array, void (*destroy_func)(void*))
+void	queue_destroy(t_queue *queue, void (*free_func)(void *, size_t size))
 {
-	size_t	index;
-
-	index = 0;
-	while (index < array->length)
-	{
-		if (destroy_func != NULL)
-			destroy_func(array->ptr + (index * array->elem_size));
-		index++;
-	}
-	free(array->ptr);
-	array->ptr = 0;
-	array->length = 0;
-	array->reserved = 0;
+	list_del(&queue->front, free_func);
+	queue->back = NULL;
+	queue->size = 0;
 }

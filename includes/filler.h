@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filler.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/22 23:03:21 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/06 03:59:55 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/03/01 22:22:06 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "libft.h"
 # include <fcntl.h>
 # include <limits.h>
-# define OPEN 10000000
+# define OPEN 1e+6
 # define ABOVE 1
 # define BELOW 2
 # define FT_FAIL 0
@@ -30,15 +30,12 @@ typedef struct	s_filler
 	int		start_pos;
 	int		put_y;
 	int		put_x;
-	int		sum;
 	char	**piece;
 	char	**map;
-	int		**nmap;
+	float	**wall_map;
+	float	**nmap;
 	char	me;
 	char	op;
-	int		nbr_me;
-	int		nbr_op;
-	int		index_nmap;
 }				t_filler;
 
 int				parse_input(t_filler *pc, int fd);
@@ -52,5 +49,6 @@ int				filler(t_filler *pc);
 int				ft_atoi_ptr(char **str);
 void			error(t_filler *pc);
 void			free_all(t_filler *pc);
+int     		populate_maps(t_filler *pc);
 
 #endif

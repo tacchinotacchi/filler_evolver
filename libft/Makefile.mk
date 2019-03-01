@@ -1,4 +1,4 @@
-SRCS = ft_memset.c \
+LIBFT_SRCS = ft_memset.c \
 		ft_bzero.c \
 		ft_memcpy.c \
 		ft_memccpy.c \
@@ -96,42 +96,29 @@ SRCS = ft_memset.c \
 		ft_witomb.c \
 		get_next_line.c \
 		get_next_line_mem.c
-OBJS = $(patsubst %.c,obj/%.o,$(SRCS))
+LIBFT_OBJS := $(patsubst %.c,obj/%.o,$(LIBFT_SRCS))
 
-CC = gcc
-ifndef CFLAGS_WARNINGS
-export CFLAGS_WARNINGS = 1
-export CFLAGS := $(CFLAGS) -Wall -Wextra -Werror
-endif
-INCLUDES = includes/libft.h \
+LIBFT_INCLUDES = includes/libft.h \
 		includes/list.h \
 		includes/get_next_line.h
-INCLUDE_FOLDERS = -Iincludes/
-NAME = libft.a
+LIBFT_INCLUDE_FOLDERS = includes/
+LIBFT_NAME = libft.a
 
-.PHONY: clean fclean re all
+LIBFT_SRCS := $(addprefix $(LIBFT_PREFIX)/, $(LIBFT_SRCS))
+LIBFT_OBJS := $(addprefix $(LIBFT_PREFIX)/, $(LIBFT_OBJS))
+LIBFT_INCLUDES := $(addprefix $(LIBFT_PREFIX)/, $(LIBFT_INCLUDES))
+LIBFT_INCLUDE_FOLDERS := $(addprefix -I$(LIBFT_PREFIX)/, $(LIBFT_INCLUDE_FOLDERS))
+LIBFT_NAME := $(addprefix $(LIBFT_PREFIX)/, $(LIBFT_NAME))
 
-all: $(NAME)
-
-$(NAME): $(OBJS)
+$(LIBFT_NAME): $(LIBFT_OBJS)
 	ar crs $@ $^
 
-obj:
-	mkdir -p obj
-	mkdir -p obj/list
-	mkdir -p obj/array
-	mkdir -p obj/queue
-	mkdir -p obj/tree
+$(LIBFT_PREFIX)/obj:
+	mkdir -p $(LIBFT_PREFIX)/obj
+	mkdir -p $(LIBFT_PREFIX)/obj/list
+	mkdir -p $(LIBFT_PREFIX)/obj/array
+	mkdir -p $(LIBFT_PREFIX)/obj/queue
+	mkdir -p $(LIBFT_PREFIX)/obj/tree
 
-obj/%.o: %.c $(INCLUDES) | obj
-	gcc $(CFLAGS) $(INCLUDE_FOLDERS) -c $< -o $@
-
-clean:
-	rm -f $(OBJS)
-	rm -rf obj
-
-fclean: clean
-	rm -f $(NAME)
-
-re: fclean
-	$(MAKE) all
+$(LIBFT_PREFIX)/obj/%.o: $(LIBFT_PREFIX)/%.c $(LIBFT_INCLUDES) | $(LIBFT_PREFIX)/obj
+	gcc $(CFLAGS) $(LIBFT_INCLUDE_FOLDERS) -c $< -o $@

@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_clear.c                                      :+:      :+:    :+:   */
+/*   queue_pop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 15:06:36 by aamadori          #+#    #+#             */
-/*   Updated: 2019/01/30 12:40:26 by aamadori         ###   ########.fr       */
+/*   Created: 2019/01/30 18:55:01 by aamadori          #+#    #+#             */
+/*   Updated: 2019/01/30 19:03:33 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "array.h"
+#include "queue.h"
 
-void	array_clear(t_array *array, void (*destroy_func)(void*))
+t_list	*queue_pop(t_queue *queue)
 {
-	size_t	index;
+	t_list	*pop;
 
-	index = 0;
-	while (index < array->length)
-	{
-		if (destroy_func != NULL)
-			destroy_func(array->ptr + (index * array->elem_size));
-		index++;
-	}
-	free(array->ptr);
-	array->ptr = 0;
-	array->length = 0;
-	array->reserved = 0;
+	pop = list_pop(&queue->front);
+	queue->size--;
+	if (queue->size == 0)
+		queue->back = NULL;
+	return (pop);
 }

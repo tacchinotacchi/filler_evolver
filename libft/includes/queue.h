@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_clear.c                                      :+:      :+:    :+:   */
+/*   queue.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 15:06:36 by aamadori          #+#    #+#             */
-/*   Updated: 2019/01/30 12:40:26 by aamadori         ###   ########.fr       */
+/*   Created: 2019/01/30 18:52:32 by aamadori          #+#    #+#             */
+/*   Updated: 2019/02/08 22:51:44 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "array.h"
+#ifndef _QUEUE_H
+# define _QUEUE_H
 
-void	array_clear(t_array *array, void (*destroy_func)(void*))
+# include "libft.h"
+# include "list.h"
+
+typedef struct	s_queue
 {
-	size_t	index;
+	t_list	*front;
+	t_list	*back;
+	size_t	size;
+}				t_queue;
 
-	index = 0;
-	while (index < array->length)
-	{
-		if (destroy_func != NULL)
-			destroy_func(array->ptr + (index * array->elem_size));
-		index++;
-	}
-	free(array->ptr);
-	array->ptr = 0;
-	array->length = 0;
-	array->reserved = 0;
-}
+void			queue_init(t_queue *queue);
+void			queue_destroy(t_queue *queue,
+					void (*free_func)(void *, size_t size));
+t_list			*queue_pop(t_queue *queue);
+void			queue_push(t_queue *queue, t_list *node);
+
+#endif

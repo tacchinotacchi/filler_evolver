@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_and_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 07:41:10 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/06 03:36:18 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/03/01 19:25:10 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	free_map(t_filler *pc)
 		index++;
 	}
 	free(pc->map);
+	pc->map = NULL;
 }
 
 static void	free_nmap(t_filler *pc)
@@ -31,12 +32,13 @@ static void	free_nmap(t_filler *pc)
 	int	index;
 
 	index = 0;
-	while (index < pc->index_nmap)
+	while (index < pc->map_h)
 	{
 		free(pc->nmap[index]);
 		index++;
 	}
 	free(pc->nmap);
+	pc->nmap = NULL;
 }
 
 static void	free_piece(t_filler *pc)
@@ -50,6 +52,7 @@ static void	free_piece(t_filler *pc)
 		index++;
 	}
 	free(pc->piece);
+	pc->piece = NULL;
 }
 
 void		error(t_filler *pc)

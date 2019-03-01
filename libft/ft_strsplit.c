@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 18:16:27 by aamadori          #+#    #+#             */
-/*   Updated: 2019/02/06 02:42:49 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/05 00:12:06 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char			**ft_strsplit(char const *s, char c)
 	size_t	index;
 	size_t	word_index;
 
-	array = (char**)ft_memalloc(sizeof(char*) * (count_words(s, c) + 1));
-	if (array && count_words(s, c))
+	array = (char**)malloc(sizeof(char*) * (count_words(s, c) + 1));
+	if (array)
 	{
 		index = 0;
 		word_index = 0;

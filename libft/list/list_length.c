@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_clear.c                                      :+:      :+:    :+:   */
+/*   list_length.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 15:06:36 by aamadori          #+#    #+#             */
-/*   Updated: 2019/01/30 12:40:26 by aamadori         ###   ########.fr       */
+/*   Created: 2019/01/29 16:12:30 by aamadori          #+#    #+#             */
+/*   Updated: 2019/01/29 16:13:19 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "array.h"
+#include "list.h"
 
-void	array_clear(t_array *array, void (*destroy_func)(void*))
+size_t	list_length(t_list *list)
 {
-	size_t	index;
+	size_t	count;
 
-	index = 0;
-	while (index < array->length)
+	count = 0;
+	while (list)
 	{
-		if (destroy_func != NULL)
-			destroy_func(array->ptr + (index * array->elem_size));
-		index++;
+		count++;
+		list = list->next;
 	}
-	free(array->ptr);
-	array->ptr = 0;
-	array->length = 0;
-	array->reserved = 0;
+	return (count);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 14:45:35 by aamadori          #+#    #+#             */
-/*   Updated: 2019/02/05 01:39:06 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/02/07 00:08:48 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,28 @@
 # include <stdlib.h>
 # include <limits.h>
 
+# define ANSI_COLOR_RED "\x1b[31m"
+# define ANSI_COLOR_GREEN "\x1b[32m"
+# define ANSI_COLOR_YELLOW "\x1b[33m"
+# define ANSI_COLOR_BLUE "\x1b[34m"
+# define ANSI_COLOR_MAGENTA "\x1b[35m"
+# define ANSI_COLOR_CYAN "\x1b[36m"
+# define ANSI_COLOR_RESET "\x1b[0m"
+
 # define ABS(x) ((x) >= 0 ? (x) : -(x))
 # define MIN(x, y) ((x) < (y) ? (x) : (y))
 # define MAX(x, y) ((x) >= (y) ? (x) : (y))
 # define LST(lst, type) ((type*)(lst)->content)
 
-typedef int		(*t_comparison)(const void *c1, const void *c2);
-typedef int		(*t_int_comparison)(int c1, int c2);
+typedef int			(*t_comparison)(const void *c1, const void *c2);
+typedef int			(*t_int_comparison)(int c1, int c2);
+
+typedef struct	s_buffer
+{
+	char	*buffer;
+	size_t	index;
+	size_t	size;
+}				t_buffer;
 
 int				ft_isupper(char c);
 int				ft_islower(char c);
@@ -64,6 +79,7 @@ int				ft_isalnum(int c);
 int				ft_atoi(const char *str);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
+void			ft_free_stub(void *ptr, size_t stub);
 void			*ft_memalloc(size_t size);
 void			ft_memdel(void **ap);
 char			*ft_strnew(size_t size);
@@ -90,6 +106,5 @@ char			*ft_itoa_base(int number, const char *base);
 ssize_t			ft_readbuff(int fd, char *buf, size_t len);
 int				ft_witomb(char *str, wchar_t wc);
 double			ft_sqrt(double num);
-size_t			ft_str_nbr(const char *str);
 
 #endif

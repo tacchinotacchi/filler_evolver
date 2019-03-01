@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+         #
+#    By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 00:44:52 by jaelee            #+#    #+#              #
-#    Updated: 2019/02/13 12:01:08 by jaelee           ###   ########.fr        #
+#    Updated: 2019/03/01 18:43:00 by aamadori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,17 @@ NAME = jaelee.filler
 SRCS = main.c \
 	   parser.c \
 	   parser_util.c \
-	   init_nmap.c \
-	   process_nmap.c \
 	   filler.c \
+	   populate_maps.c \
 	   free_and_error.c
 INCLUDES = ./includes/filler.h \
 		./libft/includes/libft.h
 OBJS = $(patsubst %.c,obj/%.o,$(SRCS))
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+ifndef CFLAGS_WARNING
+export CFLAGS_WARNING = 1
+export CFLAGS := $(CFLAGS) -Wall -Wextra -Werror 
+endif
 INCLUDE_FOLDERS = -I./includes -I./libft/includes
 LIBRARY_PATH = -Llibft
 

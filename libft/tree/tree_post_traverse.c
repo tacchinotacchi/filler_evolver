@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_clear.c                                      :+:      :+:    :+:   */
+/*   tree_post_traverse.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 15:06:36 by aamadori          #+#    #+#             */
-/*   Updated: 2019/01/30 12:40:26 by aamadori         ###   ########.fr       */
+/*   Created: 2019/02/03 18:41:46 by aamadori          #+#    #+#             */
+/*   Updated: 2019/02/03 18:41:57 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "array.h"
+#include "tree.h"
 
-void	array_clear(t_array *array, void (*destroy_func)(void*))
+void	tree_post_traverse(const t_tree *tree, void (*op)(const void *content))
 {
-	size_t	index;
-
-	index = 0;
-	while (index < array->length)
-	{
-		if (destroy_func != NULL)
-			destroy_func(array->ptr + (index * array->elem_size));
-		index++;
-	}
-	free(array->ptr);
-	array->ptr = 0;
-	array->length = 0;
-	array->reserved = 0;
+	if (!tree)
+		return ;
+	if (tree->left)
+		tree_post_traverse(tree->left, op);
+	op(tree->content);
+	if (tree->right)
+		tree_post_traverse(tree->right, op);
 }

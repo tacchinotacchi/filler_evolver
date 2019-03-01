@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_clear.c                                      :+:      :+:    :+:   */
+/*   tree_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 15:06:36 by aamadori          #+#    #+#             */
-/*   Updated: 2019/01/30 12:40:26 by aamadori         ###   ########.fr       */
+/*   Created: 2019/02/03 16:59:19 by aamadori          #+#    #+#             */
+/*   Updated: 2019/02/03 18:05:45 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "array.h"
+#include "tree.h"
 
-void	array_clear(t_array *array, void (*destroy_func)(void*))
+t_tree	*tree_search(t_tree *root, const void *content, t_comparison cmp)
 {
-	size_t	index;
+	int	last_comparison;
 
-	index = 0;
-	while (index < array->length)
+	while (root)
 	{
-		if (destroy_func != NULL)
-			destroy_func(array->ptr + (index * array->elem_size));
-		index++;
+		last_comparison = cmp(root->content, content);
+		if (!last_comparison)
+			return (root);
+		else if (last_comparison > 0)
+			root = root->left;
+		else
+			root = root->right;
 	}
-	free(array->ptr);
-	array->ptr = 0;
-	array->length = 0;
-	array->reserved = 0;
+	return (NULL);
 }

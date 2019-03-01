@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_splitdel.c                                      :+:      :+:    :+:   */
+/*   tree_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/03 21:57:33 by aamadori          #+#    #+#             */
-/*   Updated: 2019/02/03 21:59:22 by aamadori         ###   ########.fr       */
+/*   Created: 2019/02/08 23:00:16 by aamadori          #+#    #+#             */
+/*   Updated: 2019/02/08 23:07:45 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "tree.h"
 
-void	ft_splitdel(char **split)
+t_tree	*tree_grandparent(const t_tree *tree)
 {
-	size_t index;
+	if (tree != NULL && tree->parent != NULL)
+		return (tree->parent->parent);
+	else
+		return (NULL);
+}
 
-	if (!split)
-		return ;
-	index = 0;
-	while (split[index])
-	{
-		free(split[index]);
-		index++;
-	}
-	free(split);
+t_tree	*tree_uncle(const t_tree *tree)
+{
+	t_tree	*grandparent;
+
+	if (!(grandparent = tree_grandparent(tree)))
+		return (NULL);
+	if (tree->parent == grandparent->left)
+		return (grandparent->right);
+	else
+		return (grandparent->left);
 }

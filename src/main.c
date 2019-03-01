@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 07:50:42 by jaelee            #+#    #+#             */
-/*   Updated: 2019/02/13 12:02:12 by jaelee           ###   ########.fr       */
+/*   Updated: 2019/03/01 18:45:29 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void		init_filler(t_filler *pc)
 	pc->put_y = 0;
 	pc->put_x = 0;
 	pc->map = NULL;
-	pc->nmap = NULL;
 	pc->piece = NULL;
 }
 
@@ -37,15 +36,11 @@ static int	get_player(t_filler *pc, int fd)
 	{
 		pc->me = 'O';
 		pc->op = 'X';
-		pc->nbr_me = -1;
-		pc->nbr_op = -2;
 	}
 	else if (ft_strstr(line, "p2") && ft_strstr(line, "jaelee.filler"))
 	{
 		pc->me = 'X';
 		pc->op = 'O';
-		pc->nbr_me = -2;
-		pc->nbr_op = -1;
 	}
 	else
 	{
@@ -77,9 +72,10 @@ int			main(void)
 		init_filler(&pc);
 		if (parse_input(&pc, 0) == FT_FAIL)
 			break ;
-		if (create_nmap(&pc) == FT_FAIL)
+		/* TODO */
+		if (populate_maps(&pc) == FT_FAIL)
 			break ;
-		process_nmap(&pc);
+		/* TODO fuzzy decision */
 		success = filler(&pc);
 		if (success == 1)
 			print_coord(pc.put_y, pc.put_x);

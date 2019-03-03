@@ -6,7 +6,7 @@
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 07:41:10 by jaelee            #+#    #+#             */
-/*   Updated: 2019/03/01 19:25:10 by aamadori         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:48:30 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,18 @@ static void	free_map(t_filler *pc)
 	pc->map = NULL;
 }
 
-static void	free_nmap(t_filler *pc)
+static void	free_opmap(t_filler *pc)
 {
 	int	index;
 
 	index = 0;
 	while (index < pc->map_h)
 	{
-		free(pc->nmap[index]);
+		free(pc->opmap[index]);
 		index++;
 	}
-	free(pc->nmap);
-	pc->nmap = NULL;
+	free(pc->opmap);
+	pc->opmap = NULL;
 }
 
 static void	free_piece(t_filler *pc)
@@ -61,8 +61,8 @@ void		error(t_filler *pc)
 		free_map(pc);
 	if (pc->piece != NULL)
 		free_piece(pc);
-	if (pc->nmap != NULL)
-		free_nmap(pc);
+	if (pc->opmap != NULL)
+		free_opmap(pc);
 	ft_putstr("0 0\n");
 }
 
@@ -72,6 +72,6 @@ void		free_all(t_filler *pc)
 		free_map(pc);
 	if (pc->piece != NULL)
 		free_piece(pc);
-	if (pc->nmap != NULL)
-		free_nmap(pc);
+	if (pc->opmap != NULL)
+		free_opmap(pc);
 }

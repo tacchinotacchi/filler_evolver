@@ -6,7 +6,7 @@
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 09:52:27 by jaelee            #+#    #+#             */
-/*   Updated: 2019/03/01 22:46:28 by aamadori         ###   ########.fr       */
+/*   Updated: 2019/03/03 22:25:06 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,58 +39,13 @@ int     not_case_sensitive(char a, char b)
     return (a == b);
 }
 
-void		propagate_wallmap(t_filler *pc)
-{
-	int		update;
-	t_coord coords;
-	const float base = 0.6f;
+extern const float	g_op_decay;
+extern const float	g_me_decay;
+extern const float	g_wall_decay;
+extern const float	g_penetration_bonus;
+extern const float	g_wall_bonus;
 
-	update = 1;
-	while (update)
-	{
-		update = 0;
-		coords.y = 0;
-		while (coords.y < pc->map_h)
-		{
-			coords.x = 0;
-			while (coords.x < pc->map_w)
-			{
-				if (coords.y + 1 < pc->map_h
-					&& !not_case_sensitive(pc->map[coords.y + 1][coords.x], pc->me)
-					&& pc->wall_map[coords.y + 1][coords.x] * base > pc->wall_map[coords.y][coords.x])
-				{
-					pc->wall_map[coords.y][coords.x] = pc->wall_map[coords.y + 1][coords.x] * base;
-					update = 1;
-				}
-				if (coords.y - 1 >= 0
-					&& !not_case_sensitive(pc->map[coords.y - 1][coords.x], pc->me)
-					&& pc->wall_map[coords.y - 1][coords.x] * base > pc->wall_map[coords.y][coords.x])
-				{
-					pc->wall_map[coords.y][coords.x] = pc->wall_map[coords.y - 1][coords.x] * base;
-					update = 1;
-				}
-				if (coords.x + 1 < pc->map_w
-					&& !not_case_sensitive(pc->map[coords.y][coords.x + 1], pc->me)
-					&& pc->wall_map[coords.y][coords.x + 1] * base > pc->wall_map[coords.y][coords.x])
-				{
-					pc->wall_map[coords.y][coords.x] = pc->wall_map[coords.y][coords.x + 1] * base;
-					update = 1;
-				}
-				if (coords.x - 1 >= 0
-					&& !not_case_sensitive(pc->map[coords.y][coords.x - 1], pc->me)
-					&& pc->wall_map[coords.y][coords.x - 1] * base > pc->wall_map[coords.y][coords.x])
-				{
-					pc->wall_map[coords.y][coords.x] = pc->wall_map[coords.y][coords.x - 1] * base;
-					update = 1;
-				}
-				coords.x++;
-			}
-			coords.y++;
-		}
-	}
-}
-
-void		propagate_nmap(t_filler *pc)
+void		propagate_map(t_filler *pc, float **map, char obstacle, float decay)
 {
 	int		update;
 	t_coord coords;
@@ -106,31 +61,31 @@ void		propagate_nmap(t_filler *pc)
 			while (coords.x < pc->map_w)
 			{
 				if (coords.y + 1 < pc->map_h
-					&& !not_case_sensitive(pc->map[coords.y + 1][coords.x], pc->me)
-					&& pc->nmap[coords.y + 1][coords.x] - 1 > pc->nmap[coords.y][coords.x])
+					&& (!obstacle || !not_case_sensitive(map[coords.y + 1][coords.x], obstacle))
+					&& map[coords.y + 1][coords.x] * decay > map[coords.y][coords.x])
 				{
-					pc->nmap[coords.y][coords.x] = pc->nmap[coords.y + 1][coords.x] - 1;
+					map[coords.y][coords.x] = map[coords.y + 1][coords.x] * decay;
 					update = 1;
 				}
 				if (coords.y - 1 >= 0
-					&& !not_case_sensitive(pc->map[coords.y - 1][coords.x], pc->me)
-					&& pc->nmap[coords.y - 1][coords.x] - 1 > pc->nmap[coords.y][coords.x])
+					&& (!obstacle || !not_case_sensitive(map[coords.y - 1][coords.x], obstacle))
+					&& map[coords.y - 1][coords.x] * decay > map[coords.y][coords.x])
 				{
-					pc->nmap[coords.y][coords.x] = pc->nmap[coords.y - 1][coords.x] - 1;
+					map[coords.y][coords.x] = map[coords.y - 1][coords.x] * decay;
 					update = 1;
 				}
 				if (coords.x + 1 < pc->map_w
-					&& !not_case_sensitive(pc->map[coords.y][coords.x + 1], pc->me)
-					&& pc->nmap[coords.y][coords.x + 1] - 1 > pc->nmap[coords.y][coords.x])
+					&& (!obstacle || !not_case_sensitive(map[coords.y][coords.x + 1], obstacle))
+					&& map[coords.y][coords.x + 1] * decay > map[coords.y][coords.x])
 				{
-					pc->nmap[coords.y][coords.x] = pc->nmap[coords.y][coords.x + 1] - 1;
+					map[coords.y][coords.x] = map[coords.y][coords.x + 1] * decay;
 					update = 1;
 				}
 				if (coords.x - 1 >= 0
-					&& !not_case_sensitive(pc->map[coords.y][coords.x - 1], pc->me)
-					&& pc->nmap[coords.y][coords.x - 1] - 1 > pc->nmap[coords.y][coords.x])
+					&& (!obstacle || !not_case_sensitive(map[coords.y][coords.x - 1], obstacle))
+					&& map[coords.y][coords.x - 1] * decay > map[coords.y][coords.x])
 				{
-					pc->nmap[coords.y][coords.x] = pc->nmap[coords.y][coords.x - 1] - 1;
+					map[coords.y][coords.x] = map[coords.y][coords.x - 1] * decay;
 					update = 1;
 				}
 				coords.x++;
@@ -172,11 +127,10 @@ void		disable_wall(t_filler *pc, struct s_walls *walls, t_coord coords)
 		walls->right = 0;
 }
 
-void		update_nmap(t_filler *pc)
+void		update_opmap(t_filler *pc)
 {
 	t_coord	coords;
 	struct s_walls walls;
-	const float	learnable = 1.5f;
 
 	walls = (struct s_walls){1, 1, 1, 1};
 	coords.y = 0;
@@ -188,27 +142,19 @@ void		update_nmap(t_filler *pc)
 			if (wall_condition(pc, &walls, coords))
 			{
 				if (not_case_sensitive(pc->map[coords.y][coords.x], pc->me))
-					disable_wall(pc, &walls, coords);
+					pc->wall_map[coords.y][coords.x] = OPEN;
 			}
 			if (not_case_sensitive(pc->map[coords.y][coords.x], pc->op))
-				pc->nmap[coords.y][coords.x] = OPEN;
-			coords.x++;
-		}
-		coords.y++;
-	}
-	coords.y = 0;
-	while (coords.y < pc->map_h)
-	{
-		coords.x = 0;
-		while (coords.x < pc->map_w)
-		{
-			if (wall_condition(pc, &walls, coords))
-				pc->wall_map[coords.y][coords.x] = OPEN * learnable;
+				pc->opmap[coords.y][coords.x] = OPEN;
+			if (not_case_sensitive(pc->map[coords.y][coords.x], pc->me))
+				pc->memap[coords.y][coords.x] = OPEN;
 			coords.x++;
 		}
 		coords.y++;
 	}
 }
+
+#include <math.h>
 
 float	check_move(t_filler *pc, t_coord base_coords)
 {
@@ -217,7 +163,7 @@ float	check_move(t_filler *pc, t_coord base_coords)
 	float	score;
 
 	if (base_coords.x + pc->pc_w > pc->map_w || base_coords.y + pc->pc_h > pc->map_h)
-		return (-1);
+		return (-3.4024e+38f);
 	possible = 0;
 	score = 0;
 	coords = base_coords;
@@ -230,20 +176,21 @@ float	check_move(t_filler *pc, t_coord base_coords)
 				&& pc->piece[coords.y - base_coords.y][coords.x - base_coords.x] == '*')
 			{
 				if (not_case_sensitive(pc->map[coords.y][coords.x], pc->op))
-					return (-1);
+					return (-3.4024e+38f);
 				if (not_case_sensitive(pc->map[coords.y][coords.x], pc->me))
 				{
 					if (possible)
-						return (-1);
+						return (-3.4024e+38f);
 					possible = 1;
 				}
-				score += pc->nmap[coords.y][coords.x] + pc->wall_map[coords.y][coords.x];
+				score += pc->opmap[coords.y][coords.x] + pc->wall_map[coords.y][coords.x] * (OPEN - pc->opmap[coords.y][coords.x]) * g_wall_bonus
+					+ pc->memap[coords.y][coords.x] * (OPEN - pc->opmap[coords.y][coords.x]) * g_penetration_bonus;
 			}
 			coords.x++;
 		}
 		coords.y++;
 	}
-	return (possible ? score : -1.f);
+	return (possible ? score : -3.4024e+38f);
 }
 
 int			best_move(t_filler *pc)
@@ -254,7 +201,7 @@ int			best_move(t_filler *pc)
 	float	heuristic;
 
 	coords.y = 0;
-	best_pos_value = -1.f;
+	best_pos_value = -3.4024e+38f;
 	best_pos = (t_coord){0, 0};
 	while (coords.y < pc->map_h)
 	{
@@ -278,10 +225,11 @@ int			best_move(t_filler *pc)
 
 int			filler(t_filler *pc)
 {
-	update_nmap(pc);
-	propagate_nmap(pc);
-	propagate_wallmap(pc);
-	if (best_move(pc) < 0)
+	update_opmap(pc);
+	propagate_map(pc, pc->opmap, pc->me, g_op_decay);
+	propagate_map(pc, pc->memap, pc->op, g_me_decay);
+	propagate_map(pc, pc->wall_map, 0, g_wall_decay);
+	if (best_move(pc) == -3.4024e+38f)
 		return (-1);
 	return (1);
 }

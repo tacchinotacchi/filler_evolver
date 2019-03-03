@@ -6,7 +6,7 @@
 #    By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/02 06:44:37 by jaelee            #+#    #+#              #
-#    Updated: 2019/02/09 00:10:52 by jaelee           ###   ########.fr        #
+#    Updated: 2019/03/02 22:42:46 by aamadori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ INCLUDES = ../libft/includes/libft.h \
 		./includes/visu.h
 OBJS = $(patsubst %.c,obj/%.o,$(SRCS))
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS := $(CFLAGS) -Wall -Wextra -Werror
 INCLUDE_FOLDERS = -I./includes -I../libft/includes `pkg-config --cflags sdl2`
 LIBRARY_PATH = -L ../libft
 .PHONY: clean fclean re

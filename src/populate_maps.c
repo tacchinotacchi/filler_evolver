@@ -6,7 +6,7 @@
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 16:03:28 by aamadori          #+#    #+#             */
-/*   Updated: 2019/03/01 22:22:28 by aamadori         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:47:41 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ int     populate_maps(t_filler *pc)
     int y;
 
     y = 0;
-    pc->nmap = ft_memalloc(sizeof(float*) * pc->map_h);
+    pc->opmap = ft_memalloc(sizeof(float*) * pc->map_h);
+    pc->memap = ft_memalloc(sizeof(float*) * pc->map_h);
     while (y < pc->map_h)
     {
-        pc->nmap[y] = ft_memalloc(sizeof(float) * pc->map_w);
+        pc->opmap[y] = ft_memalloc(sizeof(float) * pc->map_w);
+        pc->memap[y] = ft_memalloc(sizeof(float) * pc->map_w);
         y++;
     }
     y = 0;

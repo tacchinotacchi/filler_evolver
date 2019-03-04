@@ -16,6 +16,8 @@ class Champion:
         return
     def is_dynamic(self):
         return False
+    def __lt__(self, other):
+        return self.get_fitness() < other.get_fitness()
 
 class FixedChampion(Champion):
     def __init__(self, basename):
@@ -29,6 +31,7 @@ class DynamicChampion(Champion):
         self.id = DynamicChampion.global_id + 1
         DynamicChampion.global_id = DynamicChampion.global_id + 1
         super().__init__("champion%d.filler" % self.id)
+        # TODO do bitfield genes, then get floats from a bell curve using chromosomes as input
         self.opponent_decay = random.random()
         self.self_decay = random.random() * 2 - 1
         self.wall_decay = random.random() * 2 - 1

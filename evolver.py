@@ -6,7 +6,7 @@ class FixedChampion:
     def __init__(self, filename):
         self.filename = filename
     def get_filename(self):
-        return self.filename
+        return "resources/players/" + self.filename
 
 class DynamicChampion:
     global_id = 0
@@ -20,9 +20,11 @@ class DynamicChampion:
         self.id = DynamicChampion.global_id + 1
         DynamicChampion.global_id = DynamicChampion.global_id + 1
     def get_filename(self):
-        return "champion%d.filler" % self.id
+        return "pool/champion%d.filler" % self.id
+    def get_sourcename(self)
+        return "pool/params/champion%d.c" % self.id
     def output_file(self):
-        file = open(self.filename(), "w+")
+        file = open(self.get_sourcename(), "w+")
         write(file, "const float g_op_decay =%d" % self.opponent_decay)
         write(file, "const float g_me_decay =%d" % self.self_decay)
         write(file, "const float g_wall_decay =%d" % self.wall_decay)

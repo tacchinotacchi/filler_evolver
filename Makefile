@@ -1,59 +1,58 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/01/04 00:44:52 by jaelee            #+#    #+#              #
-#    Updated: 2019/03/03 19:15:02 by aamadori         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME = jaelee.filler
-SRCS = main.c \
-	   learnable_params.c \
-	   parser.c \
-	   parser_util.c \
-	   filler.c \
-	   populate_maps.c \
-	   free_and_error.c
-INCLUDES = ./includes/filler.h \
-		./libft/includes/libft.h
+SRCS = filler.c \
+	free_and_error.c \
+	main.c \
+	parser_util.c \
+	parser.c \
+	populate_maps.c
+INCLUDES = libft/includes/libft.h \
+	includes/filler.h
 OBJS = $(patsubst %.c,obj/%.o,$(SRCS))
+
+TESTS_SRCS =
+TESTS = $(patsubst %.c,tests/%.test,$(TESTS_SRCS))
+TESTS_DBG_FOLDERS = $(TESTS:.test=.test.dSYM)
+
 CC = gcc
-ifndef CFLAGS_WARNING
-export CFLAGS_WARNING = 1
-export CFLAGS := $(CFLAGS) -Wall -Wextra -Werror 
+ifndef CFLAGS_WARNINGS
+export CFLAGS_WARNINGS = 1
+export CFLAGS := $(CFLAGS) -Wall -Wextra -Werror -std=c89
 endif
-INCLUDE_FOLDERS = -I./includes -I./libft/includes
-LIBRARY_PATH = -Llibft
+INCLUDE_FOLDERS = -Iincludes/ -Ilibft/includes
+LIBRARY_PATHS = -L. -Llibft
 
-.PHONY: clean fclean re
-.SUFFIXES: .c .o
+.PHONY: clean fclean re all
 
-all: $(NAME)
+all:
 
-$(NAME): $(OBJS) libft/libft.a
-	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) $(LIBRARY_PATH) $(OBJS) -o $@ -lft
+LIBFT_PREFIX = libft
+include libft/Makefile.mk
 
 obj:
 	mkdir -p obj
+	mkdir -p pool
+	mkdir -p pool/params
 
-obj/%.o : src/%.c $(INCLUDES) | obj
-	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) -c $< -o $@
+pool/%.filler: pool/params/%.c  $(OBJS) $(LIBFT_NAME) | obj
+	gcc $(CFLAGS) $(INCLUDE_FOLDERS) $(OBJS) $< -o $@ $(LIBRARY_PATHS) -lft
 
-libft/libft.a: libft/includes/libft.h
-	make -C libft
+obj/%.o: src/%.c $(INCLUDES) | obj
+	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) -o $@ -c $<
+
+tests/%.test: tests/%.c $(NAME) $(LIBFT_NAME)
+	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) $(LIBRARY_PATHS) -o $@ $< -lft
 
 clean:
-	make -C libft clean
+	rm -rf $(TESTS_DBG_FOLDERS)
+	rm -f $(TESTS)
 	rm -f $(OBJS)
 	rm -rf obj
+	rm -f $(LIBFT_OBJS)
+	rm -rf libft/obj
 
 fclean: clean
-	make -C libft fclean
-	rm -f $(NAME)
+	rm -f $(LIBFT_NAME)
+	rm -f $(FTPRINTF_NAME)
+	rm -rf obj
 
 re: fclean
-	make all
+	$(MAKE) all

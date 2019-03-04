@@ -3,13 +3,13 @@ import os
 import re
 
 class FixedChampion:
-    def __init__(self, filename)
+    def __init__(self, filename):
         self.filename = filename
-    def get_filename(self)
+    def get_filename(self):
         return self.filename
 
 class DynamicChampion:
-    current_id = 0
+    global_id = 0
     def __init__(self):
         random.seed()
         self.opponent_decay = random.random()
@@ -17,10 +17,10 @@ class DynamicChampion:
         self.wall_decay = random.random() * 2 - 1
         self.penetration_bonus = random.random() * 10 - 5
         self.wall_bonus = random.random() * 2 - 1
-        self.current_id = current_id + 1
-        current_id = current_id + 1
+        self.id = DynamicChampion.global_id + 1
+        DynamicChampion.global_id = DynamicChampion.global_id + 1
     def get_filename(self):
-        return "champion%d.filler" % current_id
+        return "champion%d.filler" % self.id
     def output_file(self):
         file = open(self.filename(), "w+")
         write(file, "const float g_op_decay =%d" % self.opponent_decay)
@@ -32,7 +32,6 @@ class DynamicChampion:
 
 class Arena:
     def __init__(self, initial_population = 10):
-        self.champions = []
         self.initial_population = initial_population
         fixed_filenames = [
             "abanlin.filler",
@@ -44,13 +43,19 @@ class Arena:
             "jaelee.filler",
             "superjeannot.filler"
         ]
-        self.fix_champions.append(FixedChampion(filename) for filename in fixed_filenames)
-    def new_champions(self):
-        dyn_champions.append(DynamicChampion() for i in range(self.initial_population))
-    def fight(self, first, second, fight_map="resources/maps/map01"):
+        self.fix_champions = [FixedChampion(filename) for filename in fixed_filenames]
+        self.dyn_champions = [DynamicChampion() for i in range(self.initial_population)]
+    @staticmethod
+    def fight(first, second, fight_map="resources/maps/map01"):
         output = os.popen("resources/filler_vm -q -p1 %s -p2 %s -f %s" % (first.get_filename(), second.get_filename(), fight_map))
+        pattern = re.compile("== ([OX]) fin: ([0-9]+)")
         for line in output:
-            o_pattern = re.compile("== O fin: [0-9]")
-            x_pattern = re.compile("X fin:")
+            match = pattern.match(line)
+            if match is not None:
+                if match.group(1) == "O":
+                    first_score = match.group(2)
+                elif match.group(1) == "X":
+                    second_score = match.group(2)
+        # TODO error if first_score or second score are None?
         return [first_score, second_score]
 

@@ -35,7 +35,7 @@ LIBRARY_PATH = -Llibft
 all: $(NAME)
 
 $(NAME): $(OBJS) libft/libft.a
-	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) $(LIBRARY_PATH) -lft $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) $(LIBRARY_PATH) $(OBJS) -o $@ -lft
 
 obj:
 	mkdir -p obj

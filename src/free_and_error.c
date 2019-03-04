@@ -6,7 +6,7 @@
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 07:41:10 by jaelee            #+#    #+#             */
-/*   Updated: 2019/03/01 23:48:30 by aamadori         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:45:36 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ static void	free_opmap(t_filler *pc)
 	while (index < pc->map_h)
 	{
 		free(pc->opmap[index]);
+		free(pc->memap[index]);
+		free(pc->wall_map[index]);
 		index++;
 	}
 	free(pc->opmap);
+	free(pc->memap);
+	free(pc->wall_map);
 	pc->opmap = NULL;
 }
 

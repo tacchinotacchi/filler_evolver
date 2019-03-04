@@ -22,7 +22,7 @@ LIBRARY_PATHS = -L. -Llibft
 
 .PHONY: clean fclean re all
 
-all:
+all: $(OBJS) | obj
 
 LIBFT_PREFIX = libft
 include libft/Makefile.mk
@@ -32,7 +32,7 @@ obj:
 	mkdir -p pool
 	mkdir -p pool/params
 
-pool/%.filler: pool/params/%.c  $(OBJS) $(LIBFT_NAME) | obj
+pool/%.filler: pool/params/%.c $(OBJS) $(LIBFT_NAME) | obj
 	gcc $(CFLAGS) $(INCLUDE_FOLDERS) $(OBJS) $< -o $@ $(LIBRARY_PATHS) -lft
 
 obj/%.o: src/%.c $(INCLUDES) | obj
@@ -53,6 +53,7 @@ fclean: clean
 	rm -f $(LIBFT_NAME)
 	rm -f $(FTPRINTF_NAME)
 	rm -rf obj
+	rm -rf pool
 
 re: fclean
 	$(MAKE) all

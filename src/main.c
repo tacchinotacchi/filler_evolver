@@ -6,7 +6,7 @@
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 07:50:42 by jaelee            #+#    #+#             */
-/*   Updated: 2019/03/01 18:45:29 by aamadori         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:56:14 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,20 @@ void		init_filler(t_filler *pc)
 	pc->piece = NULL;
 }
 
+extern const char *g_champion_name;
+
 static int	get_player(t_filler *pc, int fd)
 {
 	char	*line;
 
 	if (get_next_line(fd, &line) < 1)
 		return (FT_FAIL);
-	if (ft_strstr(line, "p1") && ft_strstr(line, "jaelee.filler"))
+	if (ft_strstr(line, "p1") && ft_strstr(line, g_champion_name))
 	{
 		pc->me = 'O';
 		pc->op = 'X';
 	}
-	else if (ft_strstr(line, "p2") && ft_strstr(line, "jaelee.filler"))
+	else if (ft_strstr(line, "p2") && ft_strstr(line, g_champion_name))
 	{
 		pc->me = 'X';
 		pc->op = 'O';

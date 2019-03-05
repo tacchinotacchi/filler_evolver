@@ -45,7 +45,7 @@ class Arena:
 		self.dyn_champions = [champion.DynamicChampion() for i in range(self.initial_population)]
 	def	get_champions(self):
 		return self.dyn_champions + self.fix_champions
-	def measure_fitness(self, dyn_tries = 120, fix_tries=13):
+	def measure_fitness(self, dyn_tries = 120, fix_tries=240):
 		maps = [
 			("resources/maps/map01", 984),
 			("resources/maps/map02", 10000)
@@ -56,10 +56,10 @@ class Arena:
 			th = threading.Thread(target=Arena.fight_worker,
 			args=(opponents[0], opponents[1], maps, [0, 1], True))
 			th.start()
-		threads.append(th)
+			threads.append(th)
 		fixed_matches = list(itertools.product(self.dyn_champions, self.fix_champions))
 		for opponents in fixed_matches:
-			for i in range(fix_tries):
+			for i in range(fix_tries // len(fixed_matches)):
 				opponents = list(opponents)
 				random.shuffle(opponents)
 				th = threading.Thread(target=Arena.fight_worker,

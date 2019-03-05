@@ -6,7 +6,7 @@
 /*   By: aamadori <aamadori@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 09:52:27 by jaelee            #+#    #+#             */
-/*   Updated: 2019/03/03 22:25:06 by aamadori         ###   ########.fr       */
+/*   Updated: 2019/03/05 13:54:44 by aamadori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ float	check_move(t_filler *pc, t_coord base_coords)
 						return (-3.4024e+38f);
 					possible = 1;
 				}
-				score += pc->opmap[coords.y][coords.x] + pc->wall_map[coords.y][coords.x] * (OPEN - pc->opmap[coords.y][coords.x]) * g_wall_bonus
-					+ pc->memap[coords.y][coords.x] * (OPEN - pc->opmap[coords.y][coords.x]) * g_penetration_bonus;
+				score += pc->opmap[coords.y][coords.x] + pc->wall_map[coords.y][coords.x] * (pc->opmap[coords.y][coords.x] - OPEN) * g_wall_bonus
+					+ pc->memap[coords.y][coords.x] * (pc->opmap[coords.y][coords.x] - OPEN) * g_penetration_bonus;
 			}
 			coords.x++;
 		}

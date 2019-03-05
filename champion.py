@@ -1,5 +1,6 @@
 import random
 import os
+import math
 
 class Champion:
     def __init__(self, basename):
@@ -27,28 +28,41 @@ class FixedChampion(Champion):
 
 class DynamicChampion(Champion):
     global_id = 0
-    def __init__(self):
+    @staticmethod
+    def gene_to_float(bits):
+        uniform = 0
+        for base in zip(bits, range(31, -1, -1)):
+            if base[0]:
+                uniform += (1 << base[1])
+        # TODO use normal distribution
+        return (float(uniform) / (1 << 32)) * 2 - 1
+    def __init__(self, chromosome = None):
         self.id = DynamicChampion.global_id + 1
         DynamicChampion.global_id = DynamicChampion.global_id + 1
         super().__init__("champion%d.filler" % self.id)
-        # TODO do bitfield genes, then get floats from a bell curve using chromosomes as input
-        self.opponent_decay = random.random()
-        self.self_decay = random.random() * 2 - 1
-        self.wall_decay = random.random() * 2 - 1
-        self.penetration_bonus = random.random() * 10 - 5
-        self.wall_bonus = random.random() * 2 - 1
         self.updated = False
+        if chromosome is None:
+            self.chromosome = list()
+            for i in range(32 * 5):
+                self.chromosome.append(random.choice([False, True]))
+        else:
+            self.chromosome = chromosome
     def get_filename(self):
         return "pool/" + self.get_basename()
     def get_sourcename(self):
         return "pool/params/champion%d.c" % self.id
     def output_file(self):
+        opponent_decay = DynamicChampion.gene_to_float(self.chromosome[0:32])
+        self_decay = DynamicChampion.gene_to_float(self.chromosome[32:64])
+        wall_decay = DynamicChampion.gene_to_float(self.chromosome[64:96])
+        penetration_bonus = DynamicChampion.gene_to_float(self.chromosome[96:128])
+        wall_bonus = DynamicChampion.gene_to_float(self.chromosome[128:160])
         file = open(self.get_sourcename(), "w+")
-        file.write("const float g_op_decay = %f;\n" % self.opponent_decay)
-        file.write("const float g_me_decay = %f;\n" % self.self_decay)
-        file.write("const float g_wall_decay = %f;\n" % self.wall_decay)
-        file.write("const float g_penetration_bonus = %f;\n" % self.penetration_bonus)
-        file.write("const float g_wall_bonus = %f;\n" % self.wall_bonus)
+        file.write("const float g_op_decay = %f;\n" % opponent_decay)
+        file.write("const float g_me_decay = %f;\n" % self_decay)
+        file.write("const float g_wall_decay = %f;\n" % wall_decay)
+        file.write("const float g_penetration_bonus = %f;\n" % penetration_bonus)
+        file.write("const float g_wall_bonus = %f;\n" % wall_bonus)
         file.write("const char *g_champion_name = \"%s\";\n" % self.get_basename())
         file.close()
     def compile(self):

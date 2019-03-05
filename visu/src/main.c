@@ -53,10 +53,8 @@ static void	parse_filler(t_visu *v)
 int			main(void)
 {
 	t_visu		v;
-	int			quit;
 
 	ft_bzero(&v, sizeof(v));
-	quit = 0;
 	get_map_window(&v);
 	parse_filler(&v);
 	if (!(init_sdl(&v)))

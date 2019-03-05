@@ -13,9 +13,9 @@ class Bedroom:
 	def mutate(self, champions):
 		for ch in champions:
 			mutation = random.choices([True, False], [self.mutation_rate, 1.0 - self.mutation_rate], k=len(ch.chromosome))
-			invert = (bit for bit in mutation if bit)
-			for index in invert:
-				mutated_genes[index] = False if mutated_genes[index] else True
+			for (index, invert) in zip(range(len(ch.chromosome)), mutation):
+				if invert:
+					ch.chromosome[index] = False if ch.chromosome[index] else True
 	def crossover(self, champions, target):
 		children = list()
 		combs = list(itertools.combinations(champions, 2))

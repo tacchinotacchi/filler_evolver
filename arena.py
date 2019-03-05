@@ -7,6 +7,7 @@ import champion
 
 class Arena:
 	fight_semaphore = threading.BoundedSemaphore(value=8)
+	fight_count = 0
 	@staticmethod
 	def fight(first, second, fight_map=("resources/maps/map01", 984)):
 		first.compile()
@@ -30,20 +31,21 @@ class Arena:
 	def fight_worker(first, second, maps, map_weights, verbose = False):
 		Arena.fight_semaphore.acquire()
 		map = random.choices(maps, map_weights)[0]
+		print("Fight number %d" % Arena.fight_count)
 		print("Players %s and %s in map %s, fight!" % (first.get_basename(), second.get_basename(), map[0]))
+		Arena.fight_count += 1
 		Arena.fight(first, second, map)
 		Arena.fight_semaphore.release()
 	def __init__(self, initial_population = 30):
 		self.initial_population = initial_population
 		fixed_filenames = [
-			"mnishimo.filler",
 			"jaelee.filler",
 		]
 		self.fix_champions = [champion.FixedChampion(filename) for filename in fixed_filenames]
 		self.dyn_champions = [champion.DynamicChampion() for i in range(self.initial_population)]
 	def	get_champions(self):
 		return self.dyn_champions + self.fix_champions
-	def measure_fitness(self, dyn_tries = 180, fix_tries=250):
+	def measure_fitness(self, dyn_tries = 120, fix_tries=13):
 		maps = [
 			("resources/maps/map01", 984),
 			("resources/maps/map02", 10000)
@@ -56,12 +58,13 @@ class Arena:
 			th.start()
 		threads.append(th)
 		fixed_matches = list(itertools.product(self.dyn_champions, self.fix_champions))
-		for opponents in random.choices(fixed_matches, k=fix_tries):
-			opponents = list(opponents)
-			random.shuffle(opponents)
-			th = threading.Thread(target=Arena.fight_worker,
-				args=(opponents[0], opponents[1], maps, [0, 1], True))
-			th.start()
-			threads.append(th)
+		for opponents in fixed_matches:
+			for i in range(fix_tries):
+				opponents = list(opponents)
+				random.shuffle(opponents)
+				th = threading.Thread(target=Arena.fight_worker,
+					args=(opponents[0], opponents[1], maps, [0, 1], True))
+				th.start()
+				threads.append(th)
 		for th in threads:
 			th.join()

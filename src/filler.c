@@ -44,6 +44,8 @@ extern const float	g_me_decay;
 extern const float	g_wall_decay;
 extern const float	g_penetration_bonus;
 extern const float	g_wall_bonus;
+extern const float	g_meop_importance;
+extern const float	g_wallop_importance;
 
 void		propagate_map(t_filler *pc, float **map, char obstacle, float decay)
 {
@@ -183,8 +185,9 @@ float	check_move(t_filler *pc, t_coord base_coords)
 						return (-3.4024e+38f);
 					possible = 1;
 				}
-				score += pc->opmap[coords.y][coords.x] + pc->wall_map[coords.y][coords.x] * pc->opmap[coords.y][coords.x] * g_wall_bonus
-					+ pc->memap[coords.y][coords.x] * pc->opmap[coords.y][coords.x] * g_penetration_bonus;
+				score += pc->opmap[coords.y][coords.x]
+					+ pc->wall_map[coords.y][coords.x] * pow(pc->opmap[coords.y][coords.x], g_wallop_importance) * g_wall_bonus
+					+ pc->memap[coords.y][coords.x] * pow(pc->opmap[coords.y][coords.x], g_meop_importance) * g_penetration_bonus;
 			}
 			coords.x++;
 		}
